@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person';
-
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 class App extends Component {
   //use state with care 
   state = {
@@ -71,54 +71,44 @@ class App extends Component {
 render() {
 
 
-  const style = {
-    backgroundColor: 'green',
-    color: 'White',
-    font:'inherit',
-    border: '1px solid red',
-    padding: '8px',
-    cursor: 'pointer'
-  };
-
   let persons = null;
-
+  let btnClass = '';
   if (this.state.showPersons){
     
     persons = (
       <div>
       {this.state.persons.map((person, index) => {
-        return  <Person 
+        return <ErrorBoundary key={person.id}> <Person 
         name={person.name} 
         age={person.age}
         click={()=> this.deletePersonHandler(index)} 
-        key={person.id}
+        
         changed={(event) => this.nameChangeHandler(event, person.id)}
         
-        />
+        /> </ErrorBoundary>
       })}
       </div>
         );
-      style.backgroundColor = 'red'
-
+        btnClass = classes.Red;
       }
 
-      const classes = [];
+      const assignedClasses = [];
       if (this.state.persons.length <= 2){
-        classes.push('red');
+        assignedClasses.push(classes.red);
       } 
       if (this.state.persons.length <= 1){
-        classes.push('bold');
+        assignedClasses.push(classes.bold);
       }
 
 
 
     return (
-        <div className="App">
+        <div className={classes.App}>
           <h1> Woah this is a React App </h1> 
-          <p className = {classes.join(' ')}> Oh mannn this thing is a pretty good damn tutorial</p>
+          <p className = {assignedClasses.join(' ')}> Oh mannn this thing is a pretty good damn tutorial</p>
           <button 
-          style={style}
-          onClick={this.togglePersonHandler} >Show Name </button>
+          className={btnClass}
+          onClick={this.togglePersonHandler} >Toggle Persons </button>
           {persons}
         </div> 
     );

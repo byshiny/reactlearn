@@ -43,7 +43,7 @@ class Persons extends Component {
                 click={()=> this.props.clicked(index)} 
                 
                 changed={(event) => this.props.changed(event, person.id)}
-                
+                isAuth = {this.props.isAuthenticated}
                 />
             );
         }); 

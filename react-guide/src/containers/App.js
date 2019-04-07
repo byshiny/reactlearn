@@ -3,7 +3,8 @@ import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import WithClass from '../hoc/WithClass';
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Aux';
 class App extends Component {
 
 
@@ -119,7 +120,7 @@ render() {
 
 
     return (
-        <WithClass classes={classes.App}>
+        <aux>
         <button onClick={() => {this.setState({ showCockpit: false})}}> Remove Cockpit </button>
           
           {this.state.showCockpit ? (
@@ -130,11 +131,11 @@ render() {
             clicked={this.togglePersonHandler}
           /> ) : null}
           {persons} 
-        </WithClass> 
+        </aux> 
     );
  
   // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'man I\'m tired'), 'Hi Im a react app');
   }
 }
 
-export default App;
+export default withClass(App, classes.App);

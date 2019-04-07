@@ -3,6 +3,7 @@ import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import WithClass from '../hoc/WithClass';
 class App extends Component {
 
 
@@ -23,7 +24,8 @@ class App extends Component {
       {id: 'd', name: 'Isla', age: 71}
     ],
     otherState:'Some other state value',
-    showPersons: false
+    showPersons: false,
+    showCockpit: true
   }
 
   static getDerivedStateFromProps(props, state){
@@ -36,6 +38,15 @@ class App extends Component {
     console.log('[App.js] Component did mount');
   }
 
+  shouldComponentUpdate(nextProps, nextState){
+    console.log('[App.js] shouldComponentUpdate');
+    return true;
+  }
+
+  componentDidUpdate(){
+    console.log('[App.js] componentDidUpdate')
+
+  }
   //Not used anymore from here on out fellas!
   switchNameHandler = (newName) => {
 
@@ -108,15 +119,18 @@ render() {
 
 
     return (
-        <div className={classes.App}>
+        <WithClass classes={classes.App}>
+        <button onClick={() => {this.setState({ showCockpit: false})}}> Remove Cockpit </button>
+          
+          {this.state.showCockpit ? (
           <Cockpit 
             title={this.props.appTitle}
             showPersons={this.state.showPersons}
-            persons={this.state.persons}
+            personsLength={this.state.persons.length}
             clicked={this.togglePersonHandler}
-          />
-          {persons}
-        </div> 
+          /> ) : null}
+          {persons} 
+        </WithClass> 
     );
  
   // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'man I\'m tired'), 'Hi Im a react app');

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Yet another stupid React App. Cmon</title>
-        <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-<script src='https://unpkg.com/babel-standalone@6/babel.min.js'></script>
-    </head>
+
+<head>
+    <title> Yet another stupid React App. Cmon</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src='https://unpkg.com/babel-standalone@6/babel.min.js'></script>
+</head>
+
 <body>
-<div id = "app">Fuck this bs</div>
+    <div id="app">Fuck this bs</div>
 
 </body>
 <script type='text/babel'>
@@ -27,7 +29,7 @@
     //     )
     // }
 
-    
+
 
     // function HandleComponent(props) {
     //     return React.createElement(
@@ -42,42 +44,72 @@
         return <h1>{props.name}</h1>
     }
 
-    function HandleComponent(props){
+    function HandleComponent(props) {
         return <h3> {props.handle} </h3>
     }
 
-    function FriendsList(props){
-        return(
-        <ul>
-            {props.list.map((name) => (
-                <li key = {name}>
-                    {name}
-                </li>
-            ))}    
-        </ul>
+
+
+
+    function FriendsList(props) {
+        return (
+            <ul>
+                {props.list.map((name) => (
+                    <li key={name}>
+                        <span>{name}</span>
+                        <button onClick={() => props.onRemoveFriend(name)}>Remove </button>
+                    </li>
+                ))}
+            </ul>
 
         )
     }
 
     class App extends React.Component {
 
-        constructor(props){
+        constructor(props) {
             super(props)
 
             this.state = {
                 friends: ['Jordyn', 'Mikenzi', 'Jake']
+                
             }
+            this.handleRemoveFriend = this.handleRemoveFriend.bind(this)
+        } 
+
+        handleAddFriend() {
+
+
         }
-        render() {
-            
+
+        handleRemoveFriend(name){
+           this.setState((currentState)=> {
+                return {
+                    friends: currentState.friends.filter((friend) =>friend !== name)
+                }
+
+           }) 
+
+        }
+
+
+
+    render() {
+
         return (
-            <div id = "container">
-                <FriendsList list = {this.state.friends}/>
+            <div id="container">
+                <input type='textl'
+                       placeholder='new friend'
+                       />
+                <button>Submit</button>
+                <FriendsList list={this.state.friends} 
+                onRemoveFriend = {this.handleRemoveFriend}
+                    />
             </div>
         )
-            
-        }
-        
+
+    }
+
     }
 
     // function App() {
@@ -91,22 +123,22 @@
     // }
 
     const nameElement = React.createElement(
-    'h1',
-    null,
-    name
+        'h1',
+        null,
+        name
     )
 
     const handleElement = React.createElement(
-    'h3',
-    null,
-    handler
+        'h3',
+        null,
+        handler
     )
 
     const wrapperElement = React.createElement(
-    'div',
-    { id: 'container'},
-    React.createElement(NameComponent, {name: 'Byung' }),
-    React.createElement(HandleComponent, {handle: '@Byshiny' })
+        'div',
+        { id: 'container' },
+        React.createElement(NameComponent, { name: 'Byung' }),
+        React.createElement(HandleComponent, { handle: '@Byshiny' })
     )
 
     ReactDOM.render(

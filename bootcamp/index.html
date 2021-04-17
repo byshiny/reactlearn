@@ -71,14 +71,25 @@
             super(props)
 
             this.state = {
-                friends: ['Jordyn', 'Mikenzi', 'Jake']
-                
+                friends: ['Jordyn', 'Mikenzi', 'Jake'],
+                input: 'hooligan',
+
             }
             this.handleRemoveFriend = this.handleRemoveFriend.bind(this)
+            this.updateIput = this.updateInput.bind(this)
         } 
 
         handleAddFriend() {
 
+
+        }
+
+        updateInput(e){
+            const value = e.target.value
+
+            this.setState({
+                input:value
+            })
 
         }
 
@@ -100,8 +111,11 @@
             <div id="container">
                 <input type='textl'
                        placeholder='new friend'
+                       value = {this.state.input}
+                       onChange = {this.updateInput}
+                       
                        />
-                <button>Submit</button>
+                <button> onClick={this.handleAddFriend}> Submit</button>
                 <FriendsList list={this.state.friends} 
                 onRemoveFriend = {this.handleRemoveFriend}
                     />

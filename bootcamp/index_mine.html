@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Yet another stupid React App. Cmon</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src='https://unpkg.com/babel-standalone@6/babel.min.js'></script>
+</head>
+
+<body>
+    <div id="app">Fuck this bs</div>
+
+</body>
+<script type='text/babel'>
+    console.log("Test");
+    console.log("React", window.React);
+
+    const name = "Byung";
+    const handler = "@byshiny";
+
+    // function NameComponent(props) {
+    //     return React.createElement(
+
+    //         'h1',
+    //         null,
+    //         props.name,
+
+    //     )
+    // }
+
+
+
+    // function HandleComponent(props) {
+    //     return React.createElement(
+    //         'h3',
+    //         null,
+    //         props.handle,
+    //     )
+
+    // }
+
+    function NameComponent(props) {
+        return <h1>{props.name}</h1>
+    }
+
+    function HandleComponent(props) {
+        return <h3> {props.handle} </h3>
+    }
+
+
+
+
+    function FriendsList(props) {
+        return (
+            <ul>
+                {props.list.map((name) => (
+                    <li key={name}>
+                        <span>{name}</span>
+                        <button onClick={() => props.onRemoveFriend(name)}>Remove </button>
+                        <button onClick={() => props.onDeactivateFriend(name)}>Deactivate</button>
+                    </li>
+                ))}
+            </ul>
+
+        )
+    }
+
+    function InactiveFriendsList(props) {
+        return (
+            <ul>
+                {props.list.map((name) => (
+                    <li key={name}>
+                        <span>{name}</span>
+                        <button onClick={() => props.onActivateFriend(name)}> Activate </button>
+                    </li>
+                ))}
+            </ul>
+
+        )
+    }
+
+    class App extends React.Component {
+
+        constructor(props) {
+            super(props)
+
+            this.state = {
+                ActiveFriends: ['Jordyn', 'Mikenzi', 'Jake'],
+                InactiveFriends: [],
+                input: 'hooligan',
+
+            }
+            this.handleRemoveFriend = this.handleRemoveFriend.bind(this)
+            this.updateIput = this.updateInput.bind(this)
+            this.handleAddFriend = this.handleAddFriend.bind(this)
+            this.handleRemoveAllFriends = this.handleRemoveAllFriends.bind(this)
+            this.handleDeactivateFriend = this.handleDeactivateFriend.bind(this)
+
+            this.handleActivateFriend = this.handleActivateFriend.bind(this)
+        }
+
+        handleAddFriend() {
+            this.setState((currentState) => {
+                return {
+                    ActiveFriends: currentState.ActiveFriends.concat([this.state.input]),
+                    input: ''
+                }
+            })
+
+        }
+
+        updateInput(e) {
+            const value = e.target.value
+
+            this.setState({
+                input: value
+            })
+
+        }
+
+        handleRemoveAllFriends() {
+            this.setState((currentState) => {
+                return {
+                    ActiveFriends: [],
+                    InactiveFriends: [],
+                }
+
+            })
+
+        }
+
+        handleRemoveFriend(name) {
+            this.setState((currentState) => {
+                return {
+                    ActiveFriends: currentState.ActiveFriends.filter((friend) => friend !== name)
+                }
+
+            })
+
+        }
+
+        handleDeactivateFriend(name) {
+            this.setState((currentState) => {
+                return {
+                    ActiveFriends: currentState.ActiveFriends.filter((friend) => friend !== name),
+                    InactiveFriends: currentState.InactiveFriends.concat([name]),
+                }
+
+            })
+        }
+
+        handleActivateFriend(name) {
+            this.setState((currentState) => {
+                return {
+                    InactiveFriends: currentState.InactiveFriends.filter((friend) => friend !== name),
+                    ActiveFriends: currentState.ActiveFriends.concat([name]),
+                }
+
+            })
+        }
+
+
+        render() {
+
+            return (
+                <div id="container">
+                    <input type='textl'
+                        placeholder='new friend'
+                        value={this.state.input}
+                        onChange={this.updateInput}
+
+                    />
+                    <button onClick={this.handleAddFriend}> Submit</button>
+                    <br />
+                    <button onClick={this.handleRemoveAllFriends}> ClearAll</button>
+                    <h1> Active Friends</h1>
+                    <FriendsList list={this.state.ActiveFriends}
+                        onRemoveFriend={this.handleRemoveFriend}
+                        onDeactivateFriend={this.handleDeactivateFriend}
+                    />
+                    <h1> Inactive Friends</h1>
+                    <InactiveFriendsList list={this.state.InactiveFriends}
+                        onActivateFriend={this.handleActivateFriend}
+                    />
+
+                </div>
+            )
+
+        }
+
+    }
+
+    // function App() {
+
+    //     const friends = ['Jordyn', 'Mikenzi', 'Jake']
+    //     return (
+    //         <div id = "container">
+    //             <FriendsList list = {friends}/>
+    //         </div>
+    //     )
+    // }
+
+    const nameElement = React.createElement(
+        'h1',
+        null,
+        name
+    )
+
+    const handleElement = React.createElement(
+        'h3',
+        null,
+        handler
+    )
+
+    const wrapperElement = React.createElement(
+        'div',
+        { id: 'container' },
+        React.createElement(NameComponent, { name: 'Byung' }),
+        React.createElement(HandleComponent, { handle: '@Byshiny' })
+    )
+
+    ReactDOM.render(
+        <App />,
+        document.getElementById('app')
+    );
+
+    console.log('wrapperElement', wrapperElement)
+
+</script>
+
+</html>
